@@ -18,7 +18,7 @@ public class RoomLayoutGroup : MonoBehaviour
 		get { return _roomListingButtons; }
 	}
 
-	private void Start()
+	void OnEnable()
     {
 		StartCoroutine (UpdateRooms (0.5f));
 	}
@@ -28,7 +28,6 @@ public class RoomLayoutGroup : MonoBehaviour
 		yield return new WaitForSeconds(time);
 
 		// Update rooms every 0.5s
-		print("ok");
 		RoomInfo[] rooms = PhotonNetwork.GetRoomList();
 		foreach (RoomInfo room in rooms) {
 			/*
@@ -36,9 +35,9 @@ public class RoomLayoutGroup : MonoBehaviour
 				RoomReceived (room);
 			}
 			*/
-			print(room.Name);
 			RoomReceived (room);
 		}
+		RemoveOldRooms();
 		StartCoroutine (UpdateRooms (0.5f));
 	}
 
@@ -51,7 +50,6 @@ public class RoomLayoutGroup : MonoBehaviour
 				RoomReceived (room);
 			}
 			*/
-			print(room.Name);
 			RoomReceived (room);
 		}
 		RemoveOldRooms();
