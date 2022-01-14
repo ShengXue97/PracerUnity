@@ -19,6 +19,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+public class ChatMessage
+{
+   public double lastModifiedSecond;
+   public string chatMessage;
+
+   public ChatMessage(double last, string chat)
+   {
+      lastModifiedSecond = last;
+      chatMessage = chat;
+   }
+
+   // Remaining implementation of Person class.
+}
+
 public class networkcamera : MonoBehaviour {
 	public float LastFPS;
 	public InputField SearchInputField;
@@ -35,8 +49,8 @@ public class networkcamera : MonoBehaviour {
 	public InputField ChatInput;
 	public Text SelectedChannelText;
 	public string LastChatOutput="";
-	List<string> lastchatlist = new List<string>(new string[] {});
-	List<string> chatlist = new List<string>(new string[] {});
+	public List<ChatMessage> lastchatlist = new List<ChatMessage>();
+	public List<ChatMessage> chatlist = new List<ChatMessage>();
 	List<string> ratinglist = new List<string>(new string[] {});
 	List<string> ratingProcessedlist = new List<string>(new string[] {});
 	public bool InitChat=false;
@@ -45,7 +59,7 @@ public class networkcamera : MonoBehaviour {
 	public string CurrentChatRoom="Main";
 
 	public bool CanSendChatMessage = true;
-	public int MaximumChatCount = 30;
+	public int MaximumChatCount = 1000;
 	public int RecentNumberOfChat=0;
 	public int NumberOfTimesSpammed = 0;
 
@@ -732,14 +746,14 @@ public class networkcamera : MonoBehaviour {
 		chatlist = ConvertChat (output, false);
 		var fullchatlist = ConvertChat (output, true);
 
-		chatlist.Sort ();
-		fullchatlist.Sort ();
+		chatlist.Sort((x, y) => x.lastModifiedSecond.CompareTo(y.lastModifiedSecond));
+		fullchatlist.Sort((x, y) => x.lastModifiedSecond.CompareTo(y.lastModifiedSecond));
 
 		InitChat = true;
 
 		//Return the sorted chat list
 		for (int j = 0; j < chatlist.Count; j++) {
-			string fullmessage = chatlist [j].Split ('/') [1];
+			string fullmessage = chatlist [j].chatMessage.Split ('/') [1];
 			string chatuser = fullmessage.Split (':') [0];
 
 			//Messages from "chatbot" are level editor invitations
@@ -766,11 +780,11 @@ public class networkcamera : MonoBehaviour {
 		StartCoroutine (DownloadChat (CurrentChatRoom));
 	}
 
-	public IEnumerator DeleteChat(List<string> newlist,string chatroom )
+	public IEnumerator DeleteChat(List<ChatMessage> newlist,string chatroom )
 	{
 		string dest = "";
 		for (int j = 0; j < newlist.Count-MaximumChatCount; j++) {
-			dest = "chatrooms/"+chatroom+"/"+ newlist [j].Substring(newlist[j].Split('/')[0].Length+1)+".txt";
+			dest = "chatrooms/"+chatroom+"/"+ newlist [j].chatMessage.Substring(newlist[j].chatMessage.Split('/')[0].Length+1)+".txt";
 			//print (dest + "ori" + newlist [j]);
 			AWS.AWSDelete (dest,true);
 			while (AWS.result == "") {
@@ -781,9 +795,9 @@ public class networkcamera : MonoBehaviour {
 		yield break;
 	}
 
-	public List<string> ConvertChat(string output,bool ReturnEverything)
+	public List<ChatMessage> ConvertChat(string output,bool ReturnEverything)
 	{
-		List<string> tempchatlist=new List<string>{};
+		List<ChatMessage> tempchatlist=new List<ChatMessage>{};
 
 		var split = output.Split('+');
 		for (int i = 0; i < split.Length; i++) {
@@ -792,25 +806,28 @@ public class networkcamera : MonoBehaviour {
 			//Aws lists return an empty string?
 			if (message != "") {
 				var split2 = message.Split ('/');
-				string lastmodifiedSECOND = split2 [0];
+				double lastmodifiedSecond = double.Parse(split2 [0]);
 				string chatmessagewithTXT=split2[1];
-				string chatmessage = chatmessagewithTXT.Substring (CurrentChatRoom.Length, chatmessagewithTXT.Length - 8);
+				string chatMessage = chatmessagewithTXT.Substring (CurrentChatRoom.Length, chatmessagewithTXT.Length - 8);
 
-				string chatuser = chatmessage.Split (' ')[0];
+				string chatuser = chatMessage.Split (' ')[0];
 
-				string finalchatmessage=  " " + chatmessage.Substring(chatuser.Length+1);
+				string finalchatmessage=  " " + chatMessage.Substring(chatuser.Length+1);
 
-				string result = lastmodifiedSECOND + "/" + chatuser + finalchatmessage;
+				string result = lastmodifiedSecond.ToString() + "/" + chatuser + finalchatmessage;
 				//No longer retreive messages sent locally after first retrieval
+				ChatMessage chatMessageObj = new ChatMessage(lastmodifiedSecond, result);
 				if (!ReturnEverything) {
-					if (InitChat == true && chatmessage.Split (':') [0].Contains (PhotonNetwork.player.NickName)) {
 
-					} else if (!lastchatlist.Contains (result)) {
-						tempchatlist.Add (result);
-						lastchatlist.Add (result);
+					if (InitChat == true && chatMessage.Split (':') [0].Contains (PhotonNetwork.player.NickName)) {
+
+					} else if (!lastchatlist.Exists (x => x.lastModifiedSecond == lastmodifiedSecond) 
+					&& !lastchatlist.Exists (x => x.chatMessage == chatMessage)) {
+						tempchatlist.Add (chatMessageObj);
+						lastchatlist.Add (chatMessageObj);
 					}
 				} else {
-					tempchatlist.Add (result);
+					tempchatlist.Add (chatMessageObj);
 				}
 			}
 		}

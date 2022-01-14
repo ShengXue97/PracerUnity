@@ -75,14 +75,18 @@ public class RoomLayoutGroup : MonoBehaviour
 		if (index != -1)
 		{
 			RoomListing roomListing = RoomListingButtons[index];
-
+			print(room.Name);
 			var split = room.Name.Split ('/');
-			string mapname = split [split.Length - 1];
-			string mapusername = split [split.Length - 3];
-			string mapnamewithoutTXT = mapname.Substring (0, mapname.Length - 4);
+			if (split.Length >= 4){
+				//prevent hosting campaign level bug
+				string mapname = split [split.Length - 1];
+				string mapusername = split [split.Length - 3];
+				string mapnamewithoutTXT = mapname.Substring (0, mapname.Length - 4);
 
-			roomListing.SetRoomNameText(mapnamewithoutTXT + "<color=#FFA53F> by: </color>" + mapusername,room.Name);
-			roomListing.Updated = true;
+				roomListing.SetRoomNameText(mapnamewithoutTXT + "<color=#FFA53F> by: </color>" + mapusername,room.Name);
+				roomListing.Updated = true;
+			}
+			
 		}
 	}
 
