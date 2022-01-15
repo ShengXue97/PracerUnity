@@ -1017,9 +1017,9 @@ public class networkcamera : MonoBehaviour {
 			campaignfileInfo.Clear ();
 			var arr = fileContents.Split ('/');
 			foreach (string file in arr) {
+				print(file);
 				campaignfileInfo.Add (file);
 			}
-			campaignfileInfo.Reverse ();
 
 			CampaignFirstButton.GetComponent<Button> ().interactable = false;
 			CampaignSecondButton.GetComponent<Button> ().interactable = false;

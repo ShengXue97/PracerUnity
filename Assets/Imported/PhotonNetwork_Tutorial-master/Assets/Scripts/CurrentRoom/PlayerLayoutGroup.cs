@@ -23,10 +23,19 @@ public class PlayerLayoutGroup : MonoBehaviour
 		if (RoomState != null && PhotonNetwork.inRoom) {
 			string fullname = PhotonNetwork.room.Name;
 			var split = fullname.Split ('/');
-			string mapname = split [split.Length - 1];
-			string mapusername = split [split.Length - 3];
-			string mapnamewithoutTXT = mapname.Substring (0, mapname.Length - 4);
-			RoomState.GetComponent<Text> ().text = "Map name: " + mapnamewithoutTXT + "\n\nCreated by: " + mapusername + "\n\nPlayers: "+PhotonNetwork.room.PlayerCount + " out of "+PhotonNetwork.room.MaxPlayers;
+            if (split.Length >= 4){
+                //not campaign
+                string mapname = split [split.Length - 1];
+			    string mapusername = split [split.Length - 3];
+			    string mapnamewithoutTXT = mapname.Substring (0, mapname.Length - 4);
+			    RoomState.GetComponent<Text> ().text = "Map name: " + mapnamewithoutTXT + "\n\nCreated by: " + mapusername + "\n\nPlayers: "+PhotonNetwork.room.PlayerCount + " out of "+PhotonNetwork.room.MaxPlayers;
+            } else {
+                //campaign
+                string mapname = fullname;
+			    string mapusername = "Campaign";
+			    string mapnamewithoutTXT = fullname.Split('.')[0];
+			    RoomState.GetComponent<Text> ().text = "Map name: " + mapnamewithoutTXT + "\n\nCreated by: " + mapusername + "\n\nPlayers: "+PhotonNetwork.room.PlayerCount + " out of "+PhotonNetwork.room.MaxPlayers;
+            }
 		}
 	}
 
