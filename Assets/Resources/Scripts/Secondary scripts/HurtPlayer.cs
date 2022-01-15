@@ -108,8 +108,8 @@ public class HurtPlayer : MonoBehaviour {
 		Controls pco = other.GetComponent<Controls> ();
 		Rigidbody2D prb = other.GetComponent<Rigidbody2D> ();
 
-		if (Camera.main.GetComponent<CameraFollow>().GameMode == "Deathmatch") {
-			other.GetComponent<Health> ().Damage (10, gameObject, 1f, 1f);
+		if (Camera.main.GetComponent<CameraFollow>().GameMode == "Deathmatch" && other.GetComponent<PhotonView> () != null) {
+			other.gameObject.GetComponent<PhotonView> ().photonView.RPC ("ServerTakeDamage", PhotonTargets.All, other.gameObject.name, 10);
 		}
 
 		other.GetComponent<CharacterDash> ().StunPlayer ();

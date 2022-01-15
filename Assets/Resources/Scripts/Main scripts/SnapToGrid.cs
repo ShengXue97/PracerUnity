@@ -1547,8 +1547,8 @@ public class SnapToGrid : MonoBehaviour
 					GetComponent<SpriteRenderer> ().color = new Color (0.4f, 0.4f, 0.4f);
 					mcam.GetComponent<CameraFollow> ().disabledblocks.Add (gameObject);
 
-					if (mcam.GetComponent<CameraFollow> ().GameMode == "Deathmatch") {
-						other.GetComponent<Health> ().Damage (-10, gameObject, 1f, 1f);
+					if (mcam.GetComponent<CameraFollow> ().GameMode == "Deathmatch" && other.GetComponent<PhotonView> () != null) {
+						other.gameObject.GetComponent<PhotonView> ().photonView.RPC ("ServerTakeDamage", PhotonTargets.All, other.gameObject.name, -10);
 					}
 					Instantiate (mcam.GetComponent<CameraFollow> ().brickeffect, transform.position, transform.rotation);
 

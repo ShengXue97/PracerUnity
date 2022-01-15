@@ -161,7 +161,6 @@ namespace MoreMountains.CorgiEngine
 		/// <param name="invincibilityDuration">The duration of the short invincibility following the hit.</param>
 		public virtual void Damage(int damage,GameObject instigator, float flickerDuration, float invincibilityDuration)
 		{
-			print (damage);
 			// if the object is invulnerable, we do nothing and exit
 			if (Invulnerable)
 			{
@@ -177,6 +176,10 @@ namespace MoreMountains.CorgiEngine
 			// we decrease the character's health by the damage
 			float previousHealth = CurrentHealth;
 			CurrentHealth -= damage;
+
+			if (CurrentHealth >= MaximumHealth){
+				CurrentHealth = MaximumHealth;
+			}
 
 			// we prevent the character from colliding with Projectiles, Player and Enemies
 			if (invincibilityDuration > 0)

@@ -1797,6 +1797,14 @@ public class Controls : MonoBehaviour
 		Destroy(swordbox, 0.1f);
 	}
 
+	[PunRPC]
+	public void ServerTakeDamage(string username, int damage)
+	{
+		if (username == gameObject.name){
+			gameObject.GetComponent<Health> ().Damage (damage, gameObject, 1f, 1f);
+		}
+	}
+
 	//Called by master client to all other clients
 	[PunRPC]
 	public void MasterSpawn(bool facingright,string item,string player)
