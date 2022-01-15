@@ -2460,7 +2460,7 @@ public class Controls : MonoBehaviour
 		string[] LoadedMapSplit = LoadedMap.Split ('{');
 
 		for (int i = 2; i <= count; i++) {
-
+			print(LoadedMapSplit [i]);
 			string[] LoadedMapSplit2 = LoadedMapSplit [i].Split ('"');
 			string mykey = LoadedMapSplit2 [1];
 			string myvalue = LoadedMapSplit2 [3];
@@ -2510,103 +2510,104 @@ public class Controls : MonoBehaviour
 			if (ycord < mapymin) {
 				mapymin = ycord;
 			}
+			print(myvalue);
 
 			//setblock=
-			if (myvalue.Contains ("b1")) {
+			if (myvalue.StartsWith ("b1")) {
 				block = b1;
-			} else if (myvalue.Contains ("b2")) {
+			} else if (myvalue.StartsWith ("b2")) {
 				block = b2;
-			} else if (myvalue.Contains ("b3")) {
+			} else if (myvalue.StartsWith ("b3")) {
 				block = b3;
-			} else if (myvalue.Contains ("b4")) {
+			} else if (myvalue.StartsWith ("b4")) {
 				block = b4;
-			} else if (myvalue.Contains ("brick")) {
+			} else if (myvalue.StartsWith ("brick")) {
 				block = brick;
-			} else if (myvalue.Contains ("finish")) {
+			} else if (myvalue.StartsWith ("finish")) {
 				block = finish;
-			} else if (myvalue.Contains ("ice")) {
+			} else if (myvalue.StartsWith ("ice")) {
 				block = ice;
-			} else if (myvalue.Contains ("itemonce")) {
+			} else if (myvalue.StartsWith ("itemonce")) {
 				block = itemonce;
-			} else if (myvalue.Contains ("iteminf")) {
+			} else if (myvalue.StartsWith ("iteminf")) {
 				block = iteminf;
-			} else if (myvalue.Contains ("leftarrow")) {
+			} else if (myvalue.StartsWith ("leftarrow")) {
 				block = leftarrow;
-			} else if (myvalue.Contains ("rightarrow")) {
+			} else if (myvalue.StartsWith ("rightarrow")) {
 				block = rightarrow;
-			} else if (myvalue.Contains ("uparrow")) {
+			} else if (myvalue.StartsWith ("uparrow")) {
 				block = uparrow;
-			} else if (myvalue.Contains ("downarrow")) {
+			} else if (myvalue.StartsWith ("downarrow")) {
 				block = downarrow;
-			} else if (myvalue.Contains ("bomb")) {
+			} else if (myvalue.StartsWith ("bomb")) {
 				block = bomb;
-			} else if (myvalue.Contains ("crumble")) {
+			} else if (myvalue.StartsWith ("crumble")) {
 				block = crumble;
-			} else if (myvalue.Contains ("vanish")) {
+			} else if (myvalue.StartsWith ("vanish")) {
 				block = vanish;
-			} else if (myvalue.Contains ("move")) {
+			} else if (myvalue.StartsWith ("move")) {
 				block = move;
-			} else if (myvalue.Contains ("rotateright")) {
+			} else if (myvalue.StartsWith ("rotateright")) {
 				block = rotateright;
-			} else if (myvalue.Contains ("rotateleft")) {
+			} else if (myvalue.StartsWith ("rotateleft")) {
 				block = rotateleft;
-			} else if (myvalue.Contains ("push")) {
+			} else if (myvalue.StartsWith ("push")) {
 				block = push;
-			} else if (myvalue.Contains ("happy")) {
+			} else if (myvalue.StartsWith ("happy")) {
 				block = happy;
-			} else if (myvalue.Contains ("sad")) {
+			} else if (myvalue.StartsWith ("sad")) {
 				block = sad;
-			} else if (myvalue.Contains ("net")) {
+			} else if (myvalue.StartsWith ("net")) {
 				block = net;
-			} else if (myvalue.Contains ("heart")) {
+			} else if (myvalue.StartsWith ("heart")) {
 				block = heart;
-			} else if (myvalue.Contains ("time") && !myvalue.Contains ("timefreeze")) {
+			} else if (myvalue.StartsWith ("time") && !myvalue.Contains ("timefreeze")) {
 				block = time;
-			} else if (myvalue.Contains ("water")) {
+			} else if (myvalue.StartsWith ("water")) {
 				block = water;
-			} else if (myvalue.Contains ("start")) {
+			} else if (myvalue.StartsWith ("start")) {
 				block = start;
-			} else if (myvalue.Contains ("stop")) {
+			} else if (myvalue.StartsWith ("stop")) {
 				block = stop;
-			} else if (myvalue.Contains ("ladder")) {
+			} else if (myvalue.StartsWith ("ladder")) {
 				block = ladder;
-			} else if (myvalue.Contains ("antigravity")) {
+			} else if (myvalue.StartsWith ("antigravity")) {
 				block = antigravity;
-			} else if (myvalue.Contains ("bouncy")) {
+			} else if (myvalue.StartsWith ("bouncy")) {
 				block = bouncy;
-			} else if (myvalue.Contains ("spike")) {
+			} else if (myvalue.StartsWith ("spike")) {
 				block = spike;
-			} else if (myvalue.Contains ("checkpoint")) {
+			} else if (myvalue.StartsWith ("checkpoint")) {
 				block = checkpoint;
-			} else if (myvalue.Contains ("portal")) {
+			} else if (myvalue.StartsWith ("portal")) {
 				block = portal;
-			} else if (myvalue.Contains ("door")) {
+			} else if (myvalue.StartsWith ("door")) {
 				block = door;
-			} else if (myvalue.Contains ("oneway")) {
+			} else if (myvalue.StartsWith ("oneway")) {
 				block = oneway;
-			} else if (myvalue.Contains ("rocket")) {
+			} else if (myvalue.StartsWith ("rocket")) {
 				block = rocket;
-			} else if (myvalue.Contains ("falling")) {
+			} else if (myvalue.StartsWith ("falling")) {
 				block = falling;
-			} else if (myvalue.Contains ("giant")) {
+			} else if (myvalue.StartsWith ("giant")) {
 				block = giant;
-			} else if (myvalue.Contains ("tiny")) {
+			} else if (myvalue.StartsWith ("tiny")) {
 				block = tiny;
-			} else if (myvalue.Contains ("sticky")) {
+			} else if (myvalue.StartsWith ("sticky")) {
 				block = sticky;
-			} else if (myvalue.Contains ("fan")) {
+			} else if (myvalue.StartsWith ("fan")) {
 				block = fan;
-			} else if (myvalue.Contains ("key")) {
+			} else if (myvalue.StartsWith ("key")) {
 				block = key;
-			} else if (myvalue.Contains ("lock")) {
+			} else if (myvalue.StartsWith ("lock")) {
 				block = locked;
-			} else if (myvalue.Contains ("weapon")) {
+			} else if (myvalue.StartsWith ("weapon")) {
 				block = weapon;
-			} else if (myvalue.Contains ("npc")) {
+			} else if (myvalue.StartsWith ("npc")) {
 				block = npc;
-			} else if (myvalue.Contains ("sign")) {
+			} else if (myvalue.StartsWith ("sign")) {
 				block = sign;
-			} else if (myvalue.Contains ("timefreeze")) {
+			} else if (myvalue.StartsWith ("timefreeze")) {
 				block = timefreeze;
 			}
 
@@ -2691,7 +2692,7 @@ public class Controls : MonoBehaviour
 
 
 			//Set sign values from data
-			if (myvalue.Contains ("sign")) {
+			if (myvalue.StartsWith ("sign")) {
 				string signtext = myvalue.Substring (4);
 				string[] dialogue = { signtext };
 				if (myblock.GetComponent < DialogueZone> () != null) {
